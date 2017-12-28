@@ -1,0 +1,73 @@
+#!/bin/bash
+
+##########################################
+# ide-run script
+#
+# Author: xczh <xczh.me@foxmail.com>
+##########################################
+
+set -e
+
+VERSION=1.2.0
+
+if [ "$1"x != "--init"x ]; then
+    echo "[NOTICE] ide-run shouldn't run manually."
+    exit 0
+fi
+
+# This script is autoruned at init IDE. DON'T run it manually!
+echo "[INFO] ide-run begin ..."
+
+IDE_BIN_DIR=/usr/local/ide-bin
+C9_USER_CONFIG=/workspace/.c9/user.settings
+C9_USER_INIT=/workspace/.c9/user.init
+
+if [ ! -e /root/.c9/ide-run-init-finish ]; then
+    mkdir -p ${IDE_BIN_DIR}
+
+    # set .bashrc PATH env
+    echo 'PATH=$PATH:/cloud9/bin:/usr/local/ide-bin' >> /root/.bashrc
+    export PATH=$PATH:/usr/local/ide-bin
+    echo "alias open='c9 open'" >> /root/.bashrc
+
+    # init golang env
+    mkdir -p /workspace/golang/bin /workspace/golang/src /workspace/golang/pkg
+    echo '# golang' >> ~/.bashrc
+    echo 'export GOROOT=/usr/local/go' >> ~/.bashrc
+    echo 'export GOPATH=/workspace/golang' >> ~/.bashrc
+    echo 'export PATH=$PATH:$GOPATH/bin' >> ~/.bashrc
+
+    # restore user custom c9 config
+    if [ -f ${C9_USER_CONFIG} ]; then
+        echo "[INFO] old user config found, use it"
+        cp ${C9_USER_CONFIG} /root/.c9/user.settings
+    fi
+
+    if [ -x ${C9_USER_INIT} ]; then
+        echo "[INFO] execute ${C9_USER_INIT} ..."
+        eval ${C9_USER_INIT} || echo "[ERROR] eval ${C9_USER_INIT} error!"
+    fi
+
+    # file flag for init finish
+    touch /root/.c9/ide-run-init-finish
+fi
+
+# Run C9 WebIDE Now
+NODE_ENV="production" /usr/bin/nodejs /cloud9/server.js --listen 0.0.0.0 --port 80 \
+  -w /workspace --collab --auth ${C9_AUTH} &
+
+C9_PID=$!
+
+shutdown() {
+    echo "[INFO] ide-run shutdown, kill SIGTREM to all child processes."
+    pkill -SIGTERM -P $$
+    # save user custom c9 config
+    echo "[INFO] save user custom c9 config..."
+    cp /root/.c9/user.settings ${C9_USER_CONFIG}
+    echo "[INFO] current process list:"
+    ps -ef
+    echo "[INFO] ide-run end."
+}
+
+trap shutdown INT TERM
+wait ${C9_PID}

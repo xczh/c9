@@ -1,0 +1,4 @@
+
+# deploy scripts
+deploy/*
+!deploy/deploy.sh
