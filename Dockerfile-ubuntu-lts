@@ -1,6 +1,5 @@
 # ------------------------------------------------------------------------------
 # Pull Base Image
-# From Ubuntu LTS
 FROM docker.io/ubuntu:latest
 MAINTAINER xczh <xczh.me@foxmail.com>
 
@@ -66,7 +65,7 @@ RUN git clone --single-branch --depth 1 https://github.com/c9/core.git /cloud9 &
 RUN pip install -U virtualenv && \
     virtualenv --python=python2 /root/.c9/python2 && \
     . /root/.c9/python2/bin/activate && \
-    apt-get install python-dev && \
+    apt-get install -y python-dev && \
     mkdir /tmp/codeintel && \
     pip download -d /tmp/codeintel codeintel==0.9.3 && \
     cd /tmp/codeintel && \

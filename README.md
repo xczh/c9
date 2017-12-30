@@ -11,7 +11,7 @@
  - 解决官方版本命令行不能支持中文的Bug
  - 内置`C`/`C++`/`python2`/`python3`/`nodejs`/`php`/`golang`编程语言支持
  - 内置一系列helper工具，极大方便云端开发与集成
-   * ide-yarn: 安装`nodejs`包管理工具`yarn`
+   * ide-install-yarn: 安装`nodejs`包管理工具`yarn`
    * open: 在终端中打开文件
 
 ## Maintainers
