@@ -1,4 +1,2 @@
-
-# deploy scripts
-deploy/*
-!deploy/deploy.sh
+# docker images
+/images/

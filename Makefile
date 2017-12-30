@@ -89,4 +89,11 @@ clean: rm rmi
 pull:
 	sudo docker pull ${IMAGE_NAME}:${TAG}
 
+save:
+	mkdir -p images
+	sudo docker save ${IMAGE_NAME}:${TAG} | xz -v -z -T 0 - > images/$(subst /,_,${IMAGE_NAME}):${TAG}.tar.xz
+
+load:
+	xz -v -d -T 0 -c images/$(subst /,_,${IMAGE_NAME}):${TAG}.tar.xz | sudo docker load
+
 .PHONY: build run stop start rm log logs
