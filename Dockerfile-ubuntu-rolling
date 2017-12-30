@@ -61,6 +61,20 @@ RUN git clone --single-branch --depth 1 https://github.com/c9/core.git /cloud9 &
     /cloud9/scripts/install-sdk.sh && \
     sed -i -e 's_127.0.0.1_0.0.0.0_g' /cloud9/configs/standalone.js
 
+# Install c9-codeintel
+# see: https://github.com/c9/c9.ide.language.codeintel
+RUN pip install -U virtualenv && \
+    virtualenv --python=python2 /root/.c9/python2 && \
+    . /root/.c9/python2/bin/activate && \
+    apt-get install python-dev && \
+    mkdir /tmp/codeintel && \
+    pip download -d /tmp/codeintel codeintel==0.9.3 && \
+    cd /tmp/codeintel && \
+    tar xf CodeIntel-0.9.3.tar.gz && \
+    mv CodeIntel-0.9.3/SilverCity CodeIntel-0.9.3/silvercity && \
+    tar czf CodeIntel-0.9.3.tar.gz CodeIntel-0.9.3 && \
+    pip install -U --no-index --find-links=/tmp/codeintel codeintel
+
 # ------------------------------------------------------------------------------
 # Add Volumes
 VOLUME /workspace
@@ -83,7 +97,7 @@ ENV C9_AUTH webide:webide
 # ide-init scripts
 ADD build/user.settings /root/.c9/user.settings
 ADD build/ide-run /usr/sbin/
-ADD ide-bin/ /usr/local/
+ADD ide-bin/* /usr/local/ide-bin/
 
 # supervisor config
 ADD conf/supervisord.conf /etc/supervisor/supervisord.conf
