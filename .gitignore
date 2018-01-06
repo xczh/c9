@@ -1,2 +1,5 @@
 # docker images
 /images/
+
+# record for make command
+*.mkscript
