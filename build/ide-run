@@ -25,6 +25,9 @@ C9_USER_INIT=/workspace/.c9/user.init
 if [ ! -e /root/.c9/ide-run-init-finish ]; then
     mkdir -p ${IDE_BIN_DIR}
 
+    # set user and password
+    echo root:${C9_AUTH#*:} | chpasswd
+
     # set .bashrc PATH env
     echo 'PATH=$PATH:/cloud9/bin:/usr/local/ide-bin' >> /root/.bashrc
     export PATH=$PATH:/usr/local/ide-bin
