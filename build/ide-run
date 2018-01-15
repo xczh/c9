@@ -8,7 +8,7 @@
 
 set -e
 
-VERSION=1.2.0
+VERSION=1.2.1
 
 if [ "$1"x != "--init"x ]; then
     echo "[NOTICE] ide-run shouldn't run manually."
@@ -27,11 +27,6 @@ if [ ! -e /root/.c9/ide-run-init-finish ]; then
 
     # set user and password
     echo root:${C9_AUTH#*:} | chpasswd
-
-    # set .bashrc PATH env
-    echo 'PATH=$PATH:/cloud9/bin:/usr/local/ide-bin' >> /root/.bashrc
-    export PATH=$PATH:/usr/local/ide-bin
-    echo "alias open='c9 open'" >> /root/.bashrc
 
     # init golang env
     mkdir -p /workspace/golang/bin /workspace/golang/src /workspace/golang/pkg

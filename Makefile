@@ -1,10 +1,11 @@
 CURRENT_PATH = $(shell pwd)
 
-# build
+# common
 IMAGE_NAME := docker.io/xczh/c9
 TAG ?= ubuntu-rolling
-DOCKERFILE :=
-GOLANG_VER ?=
+
+# build
+DOCKERFILE := Dockerfile
 
 # run
 CONTAINER_NAME ?= c9
@@ -39,26 +40,10 @@ ifdef EXTERNAL_SSHD_PORT
 endif
 
 # for 'build'
-ifeq ($(TAG), latest)
-    DOCKERFILE := Dockerfile
-endif
-
-ifeq ($(TAG), ubuntu-lts)
-    DOCKERFILE := Dockerfile-ubuntu-lts
-endif
-
-ifeq ($(TAG), ubuntu-rolling)
-    DOCKERFILE := Dockerfile-ubuntu-rolling
-endif
-
-ifndef DOCKERFILE
-    $(error unknown docker TAG)
-endif
-
 DOCKER_BUILD_OPT :=
 
-ifdef GOLANG_VER
-    DOCKER_BUILD_OPT += --build-arg GOLANG_VER=${GOLANG_VER}
+ifdef BASE_IMAGE
+    DOCKER_BUILD_OPT += --build-arg BASE_IMAGE=${BASE_IMAGE}
 endif
 
 # target
