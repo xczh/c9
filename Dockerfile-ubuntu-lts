@@ -13,7 +13,6 @@ LABEL maintainer "xczh <xczh.me@foxmail.com>"
 
 ADD build/ide-run /usr/sbin/
 ADD ide-bin/* /usr/local/ide-bin/
-ADD conf/supervisord.conf /etc/supervisor/supervisord.conf
 
 # ==================================================================
 # prepare
@@ -183,6 +182,13 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/.cache && \
     npm cache clean
+
+# ==================================================================
+# add config files
+# config must add after APT_INSTALL otherwise will be override
+# ------------------------------------------------------------------
+
+ADD conf/supervisord.conf /etc/supervisor/supervisord.conf
 
 # ==================================================================
 # meta
