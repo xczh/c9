@@ -174,6 +174,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     tar -zcf CodeIntel-0.9.3.tar.gz CodeIntel-0.9.3 && \
     pip install -U --no-index --find-links=/tmp/codeintel codeintel && \
     deactivate && \
+    cd /root && \
 
 # ==================================================================
 # cleanup
@@ -181,8 +182,8 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 
     apt-get clean -y && \
     apt-get autoremove -y && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/.cache && \
-    npm cache clean
+    npm cache clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/.cache
 
 # ==================================================================
 # add config files
