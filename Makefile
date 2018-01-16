@@ -3,6 +3,7 @@ CURRENT_PATH = $(shell pwd)
 # common
 IMAGE_NAME := docker.io/xczh/c9
 TAG ?= ubuntu-rolling
+DOCKER ?= docker
 
 # build
 DOCKERFILE := Dockerfile
@@ -48,37 +49,37 @@ endif
 
 # target
 build:
-	sudo docker build -t ${IMAGE_NAME}:${TAG} -f ${DOCKERFILE} ${DOCKER_BUILD_OPT} .
+	sudo ${DOCKER} build -t ${IMAGE_NAME}:${TAG} -f ${DOCKERFILE} ${DOCKER_BUILD_OPT} .
 run:
-	sudo docker run ${DOCKER_RUN_OPT} ${IMAGE_NAME}:${TAG}
+	sudo ${DOCKER} run ${DOCKER_RUN_OPT} ${IMAGE_NAME}:${TAG}
 
 log: logs
 
 logs:
-	sudo docker logs ${CONTAINER_NAME}
+	sudo ${DOCKER} logs ${CONTAINER_NAME}
 
 stop:
-	sudo docker stop ${CONTAINER_NAME}
+	sudo ${DOCKER} stop ${CONTAINER_NAME}
 
 start:
-	sudo docker start ${CONTAINER_NAME}
+	sudo ${DOCKER} start ${CONTAINER_NAME}
 
 rm: stop
-	sudo docker rm ${CONTAINER_NAME}
+	sudo ${DOCKER} rm ${CONTAINER_NAME}
 
 rmi:
-	sudo docker rmi ${IMAGE_NAME}:${TAG}
+	sudo ${DOCKER} rmi ${IMAGE_NAME}:${TAG}
 
 clean: rm rmi
 
 pull:
-	sudo docker pull ${IMAGE_NAME}:${TAG}
+	sudo ${DOCKER} pull ${IMAGE_NAME}:${TAG}
 
 save:
 	mkdir -p images
-	sudo docker save ${IMAGE_NAME}:${TAG} | xz -v -z -T 0 - > images/$(subst /,_,${IMAGE_NAME}):${TAG}.tar.xz
+	sudo ${DOCKER} save ${IMAGE_NAME}:${TAG} | xz -v -z -T 0 - > images/$(subst /,_,${IMAGE_NAME}):${TAG}.tar.xz
 
 load:
-	xz -v -d -T 0 -c images/$(subst /,_,${IMAGE_NAME}):${TAG}.tar.xz | sudo docker load
+	xz -v -d -T 0 -c images/$(subst /,_,${IMAGE_NAME}):${TAG}.tar.xz | sudo ${DOCKER} load
 
 .PHONY: build run stop start rm log logs

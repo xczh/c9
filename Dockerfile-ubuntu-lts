@@ -11,6 +11,7 @@ LABEL maintainer "xczh <xczh.me@foxmail.com>"
 # add files
 # ------------------------------------------------------------------
 
+ADD build/user.settings /root/.c9/user.settings
 ADD build/ide-run /usr/sbin/
 ADD ide-bin/* /usr/local/ide-bin/
 

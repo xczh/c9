@@ -13,6 +13,7 @@
  - 内置一系列helper工具，极大方便云端开发与集成
    * ide-install-yarn: 安装`nodejs`包管理工具`yarn`
    * open: 在终端中打开文件
+ - 全面兼容`nvidia-docker`，使用`GPU`构建深度学习开发环境
 
 ## Maintainers
 
@@ -38,21 +39,29 @@
 1. 从`DockerHub`获取预编译版本（推荐）
 
 ```sh
-$ make pull
+$ TAG=ubuntu-lts make pull
 ```
+
+支持的`TAG`请在这里查看：[Dockerhub Tags](https://hub.docker.com/r/xczh/c9/tags/)
+
+不完全列表：
+
+ - ubuntu-lts
+ - ubuntu-rolling
+ - nvidia-cu80-cudnn6
 
 2. 自行从Dockerfile编译
 
 可选编译参数：
 
- - TAG: 可选，`ubuntu-lts`/`ubuntu-rolling`，默认值`ubuntu-rolling`
- - GOLANG_VER: 可选，默认值请查看Dockerfile中ARG指令默认值
+ - TAG: 可选，默认值`ubuntu-rolling`
+ - BASE_IMAGE: 必须，指定基础镜像
 
 ```sh
-$ TAG=ubuntu-lts make
+$ TAG="ubuntu-lts" BASE_IMAGE="docker.io/ubuntu:latest" make
 ```
 
-编译时间较长，构建过程需要FanQiang环境，否则将编译失败。
+编译时间较长（大约1小时），构建过程需要FanQiang环境，否则将编译失败。
 
 编译完成后，可以在本地镜像列表中看到。
 
@@ -64,28 +73,25 @@ $ sudo docker images
 
 可选运行参数：
 
- - TAG: 可选，`ubuntu-lts`/`ubuntu-rolling`，默认值`ubuntu-rolling`
+ - TAG: 可选，默认值`ubuntu-rolling`
+ - DOCKER: 可选，Docker引擎，默认`docker`
  - STORAGE_ROOT: `/workspace`存储位置，可选，默认值`$HOME/c9`
- - EXTERNAL_PORT: 外部访问端口，可选，可指定单端口或端口范围。本参数通过-p映射到容器内部
  - EXTERNAL_HTTP_PORT: 外部Web访问端口，可选，如需在宿主机之外的环境访问则需指定，如8080
  - EXTERNAL_SSHD_PORT: 外部ssh访问端口，可选，如需传输文件和利用ssh隧道加密通信，可指定
+ - EXTERNAL_PORT: 外部访问端口，可选，可指定单端口或端口范围。本参数通过-p映射到容器内部
  - USER: WebIDE登陆用户名，可选，默认值为当前运行容器的用户
- - PASS: WebIDE登陆密码，可选，默认值`webide`，可设置为空从而禁用登陆验证
+ - PASS: WebIDE登陆密码，可选，默认值`webide`
 
 ```sh
-# eg. 无需HTTP Basic Auth认证
-$ PASS= make run
+# eg. 开启一个临时workspace
+$ STORAGE_ROOT=/tmp/c9 EXTERNAL_HTTP_PORT=8080 make run
 
 # eg. 自定义用户名及端口映射
-$ USER=myide PASS=mypasswd EXTERNAL_PORT=5000-5004 make run
+$ USER=myide PASS=mypasswd EXTERNAL_HTTP_PORT=8080 EXTERNAL_SSHD_PORT=8022 EXTERNAL_PORT=5000-5004 make run
+
+# eg. 运行深度学习开发环境（GPU）
+# IDE内可执行nvidia-smi命令查看GPU状态
+$ TAG=nvidia-cu80-cudnn6 DOCKER=nvidia-docker EXTERNAL_HTTP_PORT=8080 make run
 ```
 
-容器运行起来之后，可以在宿主机上通过`http://<container-ip>`访问到。
-
-如需外部访问：
-
-```sh
-$ EXTERNAL_HTTP_PORT=8080 EXTERNAL_PORT=51000 EXTERNAL_SSHD_PORT=52000 make run
-```
-
-访问`http://<host-ip>:8080`试试~
+现在，访问`http://<host-ip>:8080`试试~
