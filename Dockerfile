@@ -44,6 +44,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         tzdata \
         wget \
         curl \
+        zip \
         htop \
         net-tools \
         inetutils-ping \
