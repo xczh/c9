@@ -109,7 +109,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # golang
 # ------------------------------------------------------------------
 
-    GOLANG_VER="1.9.2" && \
+    GOLANG_VER="1.10" && \
     curl -o /tmp/go${GOLANG_VER}.linux-amd64.tar.gz \
         https://dl.google.com/go/go${GOLANG_VER}.linux-amd64.tar.gz && \
     tar -zxf /tmp/go${GOLANG_VER}.linux-amd64.tar.gz -C /usr/local/ && \
@@ -184,7 +184,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     apt-get clean -y && \
     apt-get autoremove -y && \
     npm cache clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/.cache
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/.cache /root/.c9/tmux-* /root/.c9/libevent-* /root/.c9/ncurses-*
 
 # ==================================================================
 # add config files
