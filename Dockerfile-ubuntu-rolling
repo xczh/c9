@@ -44,6 +44,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         wget \
         curl \
         zip \
+        unzip \
         htop \
         net-tools \
         inetutils-ping \
