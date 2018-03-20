@@ -10,6 +10,8 @@ DOCKERFILE := Dockerfile
 
 # run
 CONTAINER_NAME ?= c9
+CONTAINER_IP ?=
+CONTAINER_NET ?=
 HOSTNAME ?= c9
 STORAGE_ROOT ?= ${HOME}/c9
 EXTERNAL_PORT ?=
@@ -38,6 +40,12 @@ endif
 
 ifdef EXTERNAL_SSHD_PORT
     DOCKER_RUN_OPT += -p ${EXTERNAL_SSHD_PORT}:22
+endif
+
+ifdef CONTAINER_NET
+    ifdef CONTAINER_IP
+        DOCKER_RUN_OPT += --net ${CONTAINER_NET} --ip ${CONTAINER_IP}
+    endif
 endif
 
 # for 'build'
