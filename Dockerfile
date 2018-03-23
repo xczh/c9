@@ -111,7 +111,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # golang
 # ------------------------------------------------------------------
 
-    GOLANG_VER="1.10" && \
+    GOLANG_VER=`git ls-remote -t https://github.com/golang/go | awk -F/ '$3 ~ /^go1(\.[0-9])+$/ {print $3}' | sort -Vr | head -n 1` && \
     curl -o /tmp/go${GOLANG_VER}.linux-amd64.tar.gz \
         https://dl.google.com/go/go${GOLANG_VER}.linux-amd64.tar.gz && \
     tar -zxf /tmp/go${GOLANG_VER}.linux-amd64.tar.gz -C /usr/local/ && \
