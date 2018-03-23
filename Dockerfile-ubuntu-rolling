@@ -111,13 +111,13 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # ------------------------------------------------------------------
 
     GOLANG_VER=`git ls-remote -t https://github.com/golang/go | awk -F/ '$3 ~ /^go1(\.[0-9])+$/ {print $3}' | sort -Vr | head -n 1` && \
-    curl -o /tmp/go${GOLANG_VER}.linux-amd64.tar.gz \
-        https://dl.google.com/go/go${GOLANG_VER}.linux-amd64.tar.gz && \
-    tar -zxf /tmp/go${GOLANG_VER}.linux-amd64.tar.gz -C /usr/local/ && \
+    curl -o /tmp/${GOLANG_VER}.linux-amd64.tar.gz \
+        https://dl.google.com/go/${GOLANG_VER}.linux-amd64.tar.gz && \
+    tar -zxf /tmp/${GOLANG_VER}.linux-amd64.tar.gz -C /usr/local/ && \
     ln -s /usr/local/go/bin/go /usr/local/bin/go && \
     ln -s /usr/local/go/bin/gofmt /usr/local/bin/gofmt && \
     ln -s /usr/local/go/bin/godoc /usr/local/bin/godoc && \
-    rm -f /tmp/go${GOLANG_VER}.linux-amd64.tar.gz && \
+    rm -f /tmp/${GOLANG_VER}.linux-amd64.tar.gz && \
 
 # ==================================================================
 # node.js
