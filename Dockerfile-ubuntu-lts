@@ -102,6 +102,10 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         php-mbstring \
         php-gd \
         php-curl \
+        php-sqlite3 \
+        php-xml \
+        php-zip \
+        php-xdebug \
         && \
     curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \
