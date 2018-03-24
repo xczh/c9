@@ -161,6 +161,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # cloud9
 # ------------------------------------------------------------------
 
+    DEBIAN_FRONTEND=noninteractive $APT_INSTALL tmux && \
     $GIT_CLONE https://github.com/c9/core.git /cloud9 && \
     /cloud9/scripts/install-sdk.sh && \
 

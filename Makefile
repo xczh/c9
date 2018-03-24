@@ -17,7 +17,7 @@ STORAGE_ROOT ?= ${HOME}/c9
 EXTERNAL_PORT ?=
 EXTERNAL_HTTP_PORT ?=
 EXTERNAL_SSHD_PORT ?=
-USER ?= webide
+USER := root
 PASS ?= webide
 
 # for 'run'

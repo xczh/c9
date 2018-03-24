@@ -79,7 +79,7 @@ $ sudo docker images
  - EXTERNAL_HTTP_PORT: 外部Web访问端口，可选，如需在宿主机之外的环境访问则需指定，如8080
  - EXTERNAL_SSHD_PORT: 外部ssh访问端口，可选，如需传输文件和利用ssh隧道加密通信，可指定
  - EXTERNAL_PORT: 外部访问端口，可选，可指定单端口或端口范围。本参数通过-p映射到容器内部
- - USER: WebIDE登陆用户名，可选，默认值为当前运行容器的用户
+ - USER: WebIDE登陆用户名，可选，默认值为`root`
  - PASS: WebIDE登陆密码，可选，默认值`webide`
 
 ```sh
