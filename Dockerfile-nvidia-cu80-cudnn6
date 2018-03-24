@@ -1,5 +1,5 @@
 # ==================================================================
-# Based on nvidia/cuda-8.0
+# Based on Ubuntu
 # ------------------------------------------------------------------
 #  C / C++ / Python2 / Python3 / PHP / Golang / NodeJS
 # ==================================================================
@@ -38,19 +38,20 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # ------------------------------------------------------------------
 
     DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
-        ca-certificates \
         apt-transport-https \
-        tzdata \
-        wget \
+        apt-utils \
+        ca-certificates \
         curl \
-        zip \
-        unzip \
-        htop \
-        net-tools \
-        inetutils-ping \
         git \
-        vim \
+        htop \
+        inetutils-ping \
         nano \
+        net-tools \
+        tzdata \
+        unzip \
+        vim \
+        wget \
+        zip \
         && \
     echo 'export LANG="C.UTF-8"' >> /etc/profile && \
     echo "Asia/Shanghai" > /etc/timezone && \
@@ -62,10 +63,11 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 
     DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
         build-essential \
-        make \
         cmake \
-        gcc \
         g++ \
+        gcc \
+        gdb \
+        make \
         && \
 
 # ==================================================================
@@ -94,18 +96,21 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # ------------------------------------------------------------------
 
     DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
+        php-bz2 \
         php-cli \
-        php-json \
-        php-mysql \
-        php-mcrypt \
-        php-soap \
-        php-mbstring \
-        php-gd \
         php-curl \
+        php-gd \
+        php-json \
+        php-mbstring \
+        php-mcrypt \
+        php-mysql \
+        php-net-smtp \
+        php-net-socket \
+        php-soap \
         php-sqlite3 \
+        php-xdebug \
         php-xml \
         php-zip \
-        php-xdebug \
         && \
     curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \
@@ -114,7 +119,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # golang
 # ------------------------------------------------------------------
 
-    GOLANG_VER=`git ls-remote -t https://github.com/golang/go | awk -F/ '$3 ~ /^go1(\.[0-9])+$/ {print $3}' | sort -Vr | head -n 1` && \
+    GOLANG_VER=`git ls-remote -t https://github.com/golang/go | awk -F/ '$3 ~ /^go1(\.[0-9]+)+$/ {print $3}' | sort -Vr | head -n 1` && \
     curl -o /tmp/${GOLANG_VER}.linux-amd64.tar.gz \
         https://dl.google.com/go/${GOLANG_VER}.linux-amd64.tar.gz && \
     tar -zxf /tmp/${GOLANG_VER}.linux-amd64.tar.gz -C /usr/local/ && \
@@ -127,7 +132,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # node.js
 # ------------------------------------------------------------------
 
-    curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
+    curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
     DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
         nodejs \
         && \
@@ -158,12 +163,11 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 
 # ==================================================================
 # cloud9
+# note: tmux-1.9 required
 # ------------------------------------------------------------------
 
     $GIT_CLONE https://github.com/c9/core.git /cloud9 && \
     /cloud9/scripts/install-sdk.sh && \
-    sed -i -e 's_127.0.0.1_0.0.0.0_g' \
-        /cloud9/configs/standalone.js && \
 
 # ==================================================================
 # c9-codeintel
@@ -188,7 +192,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 
     apt-get clean -y && \
     apt-get autoremove -y && \
-    npm cache clean && \
+    npm cache clean --force && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/.cache /root/.c9/tmux-* /root/.c9/libevent-* /root/.c9/ncurses-*
 
 # ==================================================================
@@ -206,6 +210,6 @@ VOLUME /workspace
 
 EXPOSE 80
 
-ENV C9_AUTH webide:webide
+ENV C9_AUTH root:webide
 
 CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
