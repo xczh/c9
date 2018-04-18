@@ -5,7 +5,6 @@
 # ==================================================================
 
 ARG BASE_IMAGE=docker.io/ubuntu:rolling
-ARG BUILD_SRC=/root/build
 FROM ${BASE_IMAGE}
 LABEL maintainer="xczh <xczh.me@foxmail.com>"
 USER root
@@ -16,7 +15,7 @@ SHELL ["/bin/bash", "-c"]
 # add files
 # ------------------------------------------------------------------
 
-COPY build/ ${BUILD_SRC}/
+COPY build/ /tmp/build/
 
 # ==================================================================
 # prepare
@@ -62,8 +61,8 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # copy/move files [before]
 # ------------------------------------------------------------------
 
-    mv -f ${BUILD_SRC}/ide-run /usr/sbin/ && \
-    mv -f ${BUILD_SRC}/ide-bin/ /usr/local/ && \
+    mv -f /tmp/build/ide-run /usr/sbin/ && \
+    mv -f /tmp/build/ide-bin/ /usr/local/ && \
     chmod -R a+x /usr/sbin/ide-run /usr/local/ide-bin/* && \
 
 # ==================================================================
@@ -199,8 +198,8 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # copy/move files [after]
 # ------------------------------------------------------------------
 
-    mv -f ${BUILD_SRC}/config/user.settings /root/.c9/user.settings && \
-    mv -f ${BUILD_SRC}/config/supervisord.conf /etc/supervisor/supervisord.conf && \
+    mv -f /tmp/build/config/user.settings /root/.c9/user.settings && \
+    mv -f /tmp/build/config/supervisord.conf /etc/supervisor/supervisord.conf && \
 
 # ==================================================================
 # cleanup
@@ -209,7 +208,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     apt-get clean -y && \
     apt-get autoremove -y && \
     npm cache clean --force && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/.cache /root/.c9/tmux-* /root/.c9/libevent-* /root/.c9/ncurses-* ${BUILD_SRC}/
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/.cache /root/.c9/tmux-* /root/.c9/libevent-* /root/.c9/ncurses-*
 
 # ==================================================================
 # meta
@@ -218,6 +217,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 VOLUME /workspace
 
 EXPOSE 80
+EXPOSE 22
 
 ENV C9_AUTH root:webide
 

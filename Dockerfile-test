@@ -17,14 +17,13 @@ SHELL ["/bin/bash", "-c"]
 COPY build/ /tmp/build/
 
 # ==================================================================
-# prepare
+# test
 # ------------------------------------------------------------------
 
-RUN ls -lah /tmp/build/ && \
-    mv -f /tmp/build/ide-run /usr/sbin/ && \
-    mv -f /tmp/build/ide-bin/ /usr/local/ && \
-    ls -lah /usr/local/ide-bin/ && \
-    chmod -R a+x /usr/sbin/ide-run /usr/local/ide-bin/* && \
-    rm -rf /tmp/build
+RUN ls -lah /tmp/build
+
+# ==================================================================
+# meta
+# ------------------------------------------------------------------
 
 CMD ["/bin/bash"]
