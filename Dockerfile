@@ -17,7 +17,7 @@ SHELL ["/bin/bash", "-c"]
 # notice: docker build -t xczh/c9:TAG ./build
 # ------------------------------------------------------------------
 
-COPY build/ ${BUILD_SRC}/
+COPY build/ ${BUILD_SRC}
 
 # ==================================================================
 # prepare
