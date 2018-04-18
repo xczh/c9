@@ -85,9 +85,9 @@ pull:
 
 save:
 	mkdir -p images
-	sudo ${DOCKER} save ${IMAGE_NAME}:${TAG} | xz -v -z -T 0 - > images/$(subst /,_,${IMAGE_NAME}):${TAG}.tar.xz
+	sudo ${DOCKER} save ${IMAGE_NAME}:${TAG} -o images/$(subst /,_,${IMAGE_NAME}):${TAG}.tar && xz -v -z -T 0 images/$(subst /,_,${IMAGE_NAME}):${TAG}.tar
 
 load:
-	xz -v -d -T 0 -c images/$(subst /,_,${IMAGE_NAME}):${TAG}.tar.xz | sudo ${DOCKER} load
+	sudo ${DOCKER} load < images/$(subst /,_,${IMAGE_NAME}):${TAG}.tar.xz
 
 .PHONY: build run stop start rm log logs
