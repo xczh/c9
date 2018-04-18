@@ -21,10 +21,12 @@ COPY build/ ${BUILD_SRC}/
 # prepare
 # ------------------------------------------------------------------
 
-RUN echo "${BUILD_SRC}" && \
+RUN echo "build_src: ${BUILD_SRC}" && \
+    ls ${BUILD_SRC}/ && \
     mv -f ${BUILD_SRC}/ide-run /usr/sbin/ && \
     mv -f ${BUILD_SRC}/ide-bin/ /usr/local/ && \
+    ls -lah /usr/local/ide-bin/ && \
     chmod -R a+x /usr/sbin/ide-run /usr/local/ide-bin/* && \
-    rm -rf ${BUILD_SRC}/
+    rm -rf ${BUILD_SRC}
 
 CMD ["/bin/bash"]
