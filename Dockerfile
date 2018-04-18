@@ -17,7 +17,7 @@ SHELL ["/bin/bash", "-c"]
 # notice: docker build -t xczh/c9:TAG ./build
 # ------------------------------------------------------------------
 
-COPY build/ ${BUILD_SRC}
+COPY build/ ${BUILD_SRC}/
 
 # ==================================================================
 # prepare
@@ -32,8 +32,6 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
            /etc/apt/sources.list.d/cuda.list \
            /etc/apt/sources.list.d/nvidia-ml.list && \
     apt-get update && \
-    chmod a+x /usr/sbin/ide-run && \
-    chmod a+x /usr/local/ide-bin/* && \
     echo 'PATH=$PATH:/cloud9/bin:/usr/local/ide-bin' >> /root/.bashrc && \
     echo "alias open='c9 open'" >> /root/.bashrc && \
 
@@ -67,7 +65,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 
     mv -f ${BUILD_SRC}/ide-run /usr/sbin/ && \
     mv -rf ${BUILD_SRC}/ide-bin/ /usr/local/ && \
-    chmod -R a+x /usr/sbin/ide-run /usr/local/ide-bin/ && \
+    chmod -R a+x /usr/sbin/ide-run /usr/local/ide-bin/* && \
 
 # ==================================================================
 # c AND c++
