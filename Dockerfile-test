@@ -4,7 +4,6 @@
 #  C / C++ / Python2 / Python3 / PHP / Golang / NodeJS
 # ==================================================================
 
-ARG BUILD_SRC=/root/build
 FROM docker.io/ubuntu:rolling
 LABEL maintainer="xczh <xczh.me@foxmail.com>"
 USER root
@@ -15,18 +14,17 @@ SHELL ["/bin/bash", "-c"]
 # add files
 # ------------------------------------------------------------------
 
-COPY build/ $BUILD_SRC/
+COPY build/ /tmp/build/
 
 # ==================================================================
 # prepare
 # ------------------------------------------------------------------
 
-RUN echo "build_src: $BUILD_SRC" && \
-    ls /root/build/ && \
-    mv -f $BUILD_SRC/ide-run /usr/sbin/ && \
-    mv -f $BUILD_SRC/ide-bin/ /usr/local/ && \
+RUN ls -lah /tmp/build/ && \
+    mv -f /tmp/build/ide-run /usr/sbin/ && \
+    mv -f /tmp/build/ide-bin/ /usr/local/ && \
     ls -lah /usr/local/ide-bin/ && \
     chmod -R a+x /usr/sbin/ide-run /usr/local/ide-bin/* && \
-    rm -rf $BUILD_SRC
+    rm -rf /tmp/build
 
 CMD ["/bin/bash"]
