@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  c9:
+    image: "xczh/c9:ubuntu-rolling"
+    container_name: c9
+    restart: always
+    hostname: c9
+    ports:
+      # WebIDE HTTP Port
+      - "8080:80"
+      # WebIDE SSH Port
+      - "8022:22"
+    volumes:
+      - "/tmp/c9:/workspace"
+    cap_add:
+      - SYS_PTRACE
+    networks:
+      br_ide:
+        ipv4_address: 172.30.10.10
+        #ipv6_address:
+
+networks:
+  br_ide:
+    driver: bridge
+    #enable_ipv6: true
+    ipam:
+      driver:default
+      config:
+      -
+        subnet: 172.30.10.0/24
