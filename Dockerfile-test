@@ -1,0 +1,30 @@
+# ==================================================================
+# Based on Ubuntu
+# ------------------------------------------------------------------
+#  C / C++ / Python2 / Python3 / PHP / Golang / NodeJS
+# ==================================================================
+
+ARG BUILD_SRC=/root/build
+FROM docker.io/ubuntu:rolling
+LABEL maintainer="xczh <xczh.me@foxmail.com>"
+USER root
+WORKDIR /root
+SHELL ["/bin/bash", "-c"]
+
+# ==================================================================
+# add files
+# ------------------------------------------------------------------
+
+COPY build/ ${BUILD_SRC}/
+
+# ==================================================================
+# prepare
+# ------------------------------------------------------------------
+
+RUN echo "${BUILD_SRC}" && \
+    mv -f ${BUILD_SRC}/ide-run /usr/sbin/ && \
+    mv -f ${BUILD_SRC}/ide-bin/ /usr/local/ && \
+    chmod -R a+x /usr/sbin/ide-run /usr/local/ide-bin/* && \
+    rm -rf ${BUILD_SRC}/
+
+CMD ["/bin/bash"]
