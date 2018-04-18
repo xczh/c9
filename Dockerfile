@@ -14,7 +14,6 @@ SHELL ["/bin/bash", "-c"]
 
 # ==================================================================
 # add files
-# notice: docker build -t xczh/c9:TAG ./build
 # ------------------------------------------------------------------
 
 COPY build/ ${BUILD_SRC}/
@@ -64,7 +63,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # ------------------------------------------------------------------
 
     mv -f ${BUILD_SRC}/ide-run /usr/sbin/ && \
-    mv -rf ${BUILD_SRC}/ide-bin/ /usr/local/ && \
+    mv -f ${BUILD_SRC}/ide-bin/ /usr/local/ && \
     chmod -R a+x /usr/sbin/ide-run /usr/local/ide-bin/* && \
 
 # ==================================================================
