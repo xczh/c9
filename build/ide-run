@@ -8,8 +8,6 @@
 
 set -e
 
-VERSION=1.2.1
-
 if [ "$1"x != "--init"x ]; then
     echo "[NOTICE] ide-run shouldn't run manually."
     exit 0

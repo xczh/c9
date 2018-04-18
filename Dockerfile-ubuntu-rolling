@@ -4,16 +4,19 @@
 #  C / C++ / Python2 / Python3 / PHP / Golang / NodeJS
 # ==================================================================
 
+ARG BUILD_SRC=/root/build
 FROM docker.io/ubuntu:rolling
-LABEL maintainer "xczh <xczh.me@foxmail.com>"
+LABEL maintainer="xczh <xczh.me@foxmail.com>"
+USER root
+WORKDIR /root
+SHELL ["/bin/bash", "-c"]
 
 # ==================================================================
 # add files
+# notice: docker build -t xczh/c9:TAG ./build
 # ------------------------------------------------------------------
 
-ADD build/user.settings /root/.c9/user.settings
-ADD build/ide-run /usr/sbin/
-ADD ide-bin/* /usr/local/ide-bin/
+COPY build/ ${BUILD_SRC}/
 
 # ==================================================================
 # prepare
@@ -56,6 +59,14 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     echo 'export LANG="C.UTF-8"' >> /etc/profile && \
     echo "Asia/Shanghai" > /etc/timezone && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+
+# ==================================================================
+# copy/move files [before]
+# ------------------------------------------------------------------
+
+    mv -f ${BUILD_SRC}/ide-run /usr/sbin/ && \
+    mv -rf ${BUILD_SRC}/ide-bin/ /usr/local/ && \
+    chmod -R a+x /usr/sbin/ide-run /usr/local/ide-bin/ && \
 
 # ==================================================================
 # c AND c++
@@ -187,20 +198,20 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     cd /root && \
 
 # ==================================================================
+# copy/move files [after]
+# ------------------------------------------------------------------
+
+    mv -f ${BUILD_SRC}/config/user.settings /root/.c9/user.settings && \
+    mv -f ${BUILD_SRC}/config/supervisord.conf /etc/supervisor/supervisord.conf && \
+
+# ==================================================================
 # cleanup
 # ------------------------------------------------------------------
 
     apt-get clean -y && \
     apt-get autoremove -y && \
     npm cache clean --force && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/.cache /root/.c9/tmux-* /root/.c9/libevent-* /root/.c9/ncurses-*
-
-# ==================================================================
-# add config files
-# config must add after APT_INSTALL otherwise will be override
-# ------------------------------------------------------------------
-
-ADD conf/supervisord.conf /etc/supervisor/supervisord.conf
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/.cache /root/.c9/tmux-* /root/.c9/libevent-* /root/.c9/ncurses-* ${BUILD_SRC}/
 
 # ==================================================================
 # meta
