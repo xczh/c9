@@ -109,7 +109,6 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         php-gd \
         php-json \
         php-mbstring \
-        php-mcrypt \
         php-mysql \
         php-net-smtp \
         php-net-socket \
@@ -134,6 +133,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     ln -s /usr/local/go/bin/gofmt /usr/local/bin/gofmt && \
     ln -s /usr/local/go/bin/godoc /usr/local/bin/godoc && \
     rm -f /tmp/${GOLANG_VER}.linux-amd64.tar.gz && \
+    /usr/local/bin/go version && \
 
 # ==================================================================
 # node.js
