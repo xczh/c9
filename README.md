@@ -6,10 +6,10 @@
 
 支持TAG:
 
- - ubuntu-rolling, cpu, latest
- - ubuntu-lts
- - nvidia-cu90-cudnn7, gpu
- - nvidia-cu80-cudnn6
+ - `ubuntu-rolling`, `cpu`, `latest`
+ - `ubuntu-lts`
+ - `nvidia-cu90-cudnn7`, `gpu`
+ - `nvidia-cu80-cudnn6`
 
 ```sh
 # 使用CPU版本
@@ -64,8 +64,8 @@ $ sudo docker run -d --restart=always \
                   -e EXTERNAL_PORT=${external_port} \
                   -p ${external_port}:${external_port} \
                   -p 10080:80 \
-                  -p 10022:22
-                  xczh/c9:cpu                  
+                  -p 10022:22 \
+                  xczh/c9:cpu
 
 
 # GPU版本运行示例
@@ -79,8 +79,8 @@ $ sudo nvidia-docker run -d --restart=always \
                          -e EXTERNAL_PORT=${external_port} \
                          -p ${external_port}:${external_port} \
                          -p 10080:80 \
-                         -p 10022:22
-                         xczh/c9:gpu  
+                         -p 10022:22 \
+                         xczh/c9:gpu
 
 ```
 
