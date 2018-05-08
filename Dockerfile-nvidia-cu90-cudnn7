@@ -4,9 +4,8 @@
 #  C / C++ / Python2 / Python3 / PHP / Golang / NodeJS
 # ==================================================================
 
-ARG BASE_IMAGE=
 
-FROM ${BASE_IMAGE}
+FROM nvidia/cuda:9.0-cudnn7-devel
 
 LABEL maintainer.name="xczh" \
       maintainer.email="xczh.me@foxmail.com" \

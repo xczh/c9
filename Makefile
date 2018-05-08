@@ -1,7 +1,7 @@
 CURRENT_PATH = $(shell pwd)
 
 # common
-IMAGE_NAME := docker.io/xczh/c9
+IMAGE_NAME := xczh/c9
 TAG ?= ubuntu-rolling
 DOCKER ?= docker
 

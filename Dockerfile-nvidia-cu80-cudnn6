@@ -4,10 +4,17 @@
 #  C / C++ / Python2 / Python3 / PHP / Golang / NodeJS
 # ==================================================================
 
+
 FROM nvidia/cuda:8.0-cudnn6-devel
-LABEL maintainer="xczh <xczh.me@foxmail.com>"
+
+LABEL maintainer.name="xczh" \
+      maintainer.email="xczh.me@foxmail.com" \
+      description="Cloud9 WebIDE"
+
 USER root
+
 WORKDIR /root
+
 SHELL ["/bin/bash", "-c"]
 
 # ==================================================================
@@ -217,8 +224,10 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 VOLUME /workspace
 
 EXPOSE 80
+
 EXPOSE 22
 
-ENV C9_AUTH root:webide
+ENV C9_AUTH=root:webide
+ENV EXTERNAL_PORT=
 
 CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
