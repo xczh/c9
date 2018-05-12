@@ -49,6 +49,8 @@ $ sudo docker pull xczh/c9:gpu
 
 ## 运行指南
 
+建议你使用`deploy/cpu-template.sh`和`deploy/gpu-template.sh`修改后运行容器。
+
 ```sh
 # CPU版本运行示例
 #
