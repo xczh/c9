@@ -1,0 +1,18 @@
+#!/bin/bash
+
+####
+#  Install docker cli-client
+####
+
+set -e
+
+DOCKER_FILENAME=`curl -sSL https://download.docker.com/linux/static/stable/x86_64/ | grep 'href="docker-.*-ce\.tgz"' | cut -f 2 -d '"' | sort -Vr | head -n 1`
+
+curl -L -o /tmp/${DOCKER_FILENAME} https://download.docker.com/linux/static/stable/x86_64/${DOCKER_FILENAME} 
+
+cd /tmp && tar -zxf ${DOCKER_FILENAME} && mv docker/docker /usr/local/bin && rm -rf /tmp/${DOCKER_FILENAME} /tmp/docker
+
+echo "[INFO] Docker client install success."
+echo "[INFO] To connect with dockerd, use 'export DOCKER_HOST=tcp://<host-ip>:<port>' or run docker with '-H tcp://<host-ip>:<port>' flag. The default port is 2375(without TLS) or 2376(with TLS)."
+
+docker version

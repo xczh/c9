@@ -63,8 +63,6 @@ $ sudo docker run -d --restart=always \
                   --cap-add SYS_PTRACE \
                   -v ${path_to_workspace}:/workspace \
                   -e C9_AUTH=root:${password} \
-                  -e EXTERNAL_PORT=${external_port} \
-                  -p ${external_port}:${external_port} \
                   -p 10080:80 \
                   -p 10022:22 \
                   xczh/c9:cpu
@@ -78,8 +76,6 @@ $ sudo nvidia-docker run -d --restart=always \
                          --cap-add SYS_PTRACE \
                          -v ${path_to_workspace}:/workspace \
                          -e C9_AUTH=root:${password} \
-                         -e EXTERNAL_PORT=${external_port} \
-                         -p ${external_port}:${external_port} \
                          -p 10080:80 \
                          -p 10022:22 \
                          xczh/c9:gpu

@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  c9:
+    image: "xczh/c9:cpu"
+    restart: always
+    container_name: c9
+    hostname: c9
+    cap_add:
+      - SYS_PTRACE
+    ports:
+      - "10080:80"
+      - "10022:22"
+    environment:
+      - C9_AUTH=root:myide
+    volumes:
+      - "/tmp/c9:/workspace"
