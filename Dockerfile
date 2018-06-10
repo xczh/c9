@@ -59,6 +59,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         unzip \
         vim \
         wget \
+        xauth \
         zip \
         && \
     echo 'export LANG="C.UTF-8"' >> /etc/profile && \
@@ -165,7 +166,8 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         openssl \
         && \
     mkdir /var/run/sshd && \
-    sed -i 's/#PermitRootLogin/PermitRootLogin yes #/' /etc/ssh/sshd_config && \
+    sed -i 's/.*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config && \
+    sed -i 's/.*X11Forwarding.*/X11Forwarding yes/' /etc/ssh/sshd_config && \
 
 # ==================================================================
 # supervisor
