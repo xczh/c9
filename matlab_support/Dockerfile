@@ -1,13 +1,15 @@
 # ==================================================================
 # Based on xczh/c9
+# Usage: docker build -t xczh/c9:nvidia-cu90-cudnn7-R2018a --build-arg BASE_IMAGE=xczh/c9:nvidia-cu90-cudnn7 --build-arg MATLAB_VER=R2018a .
 # ------------------------------------------------------------------
 #  MATLAB
 # ==================================================================
 
 ARG BASE_IMAGE=
-ARG MATLAB_VER=
-
 FROM ${BASE_IMAGE}
+
+ARG MATLAB_VER=
+ENV MATLAB_VER=${MATLAB_VER}
 
 # ==================================================================
 # add files
