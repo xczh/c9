@@ -16,6 +16,12 @@ USER root
 
 WORKDIR /root
 
+RUN apt-get update
+RUN apt-get install -y nginx
+
+COPY conf/nginx/default /etc/nginx/sites-enabled/default
+COPY entry.sh /root/entry.sh
+
 SHELL ["/bin/bash", "-c"]
 
 # ==================================================================
@@ -226,11 +232,11 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 
 VOLUME /workspace
 
-EXPOSE 80
+EXPOSE 443
 
 EXPOSE 22
 
 ENV C9_AUTH=root:webide
 ENV EXTERNAL_PORT=
 
-CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+CMD ["/bin/bash", "/root/entry.sh"]

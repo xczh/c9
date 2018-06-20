@@ -11,17 +11,25 @@ LABEL maintainer.name="xczh" \
       maintainer.email="xczh.me@foxmail.com" \
       description="Cloud9 WebIDE"
 
+
+# ==================================================================
+# add files
+# ------------------------------------------------------------------
+RUN apt-get update
+RUN apt-get install -y nginx
+COPY build/ /tmp/build/
+
+#
+COPY entry.sh /root/entry.sh
+COPY conf/nginx/default /etc/nginx/sites-enabled/default
 USER root
 
 WORKDIR /root
 
 SHELL ["/bin/bash", "-c"]
 
-# ==================================================================
-# add files
-# ------------------------------------------------------------------
 
-COPY build/ /tmp/build/
+
 
 # ==================================================================
 # prepare
@@ -225,11 +233,12 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 
 VOLUME /workspace
 
-EXPOSE 80
+EXPOSE 443
 
 EXPOSE 22
 
 ENV C9_AUTH=root:webide
 ENV EXTERNAL_PORT=
 
-CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+#CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+CMD ["/bin/bash","/root/entry.sh"]
