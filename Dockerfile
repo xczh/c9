@@ -49,6 +49,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         apt-utils \
         ca-certificates \
         curl \
+        file \
         git \
         gnupg \
         htop \
@@ -149,7 +150,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # node.js
 # ------------------------------------------------------------------
 
-    curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
+    curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
     DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
         nodejs \
         && \
