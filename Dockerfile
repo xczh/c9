@@ -18,6 +18,8 @@ WORKDIR /root
 
 SHELL ["/bin/bash", "-c"]
 
+ENV LANG="C.UTF-8"
+
 # ==================================================================
 # add files
 # ------------------------------------------------------------------
@@ -63,7 +65,6 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         xauth \
         zip \
         && \
-    echo 'export LANG="C.UTF-8"' >> /etc/profile && \
     echo "Asia/Shanghai" > /etc/timezone && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
 
