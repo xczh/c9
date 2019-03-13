@@ -5,7 +5,7 @@
 # ==================================================================
 
 
-FROM ubuntu:latest
+FROM nvidia/cuda:10.1-cudnn7-devel
 
 LABEL maintainer.name="xczh" \
       maintainer.email="xczh.me@foxmail.com" \

@@ -6,10 +6,10 @@
 
 支持TAG:
 
- - `cpu`: 支持CPU的最新版，基于ubuntu-rolling
- - `gpu`: 支持GPU的最新版，基于NVIDIA CUDA9.0和cudnn7
- - `ubuntu-lts`：支持CPU的旧版本
- - `nvidia-cu80-cudnn6`：支持GPU的旧版本
+ - `cpu`: 支持CPU的最新版
+ - `gpu`: 支持GPU的最新版
+ - `ubuntu-<ver>`：支持CPU的旧版本
+ - `nvidia-cu<ver>-cudnn<ver>`：支持GPU的旧版本
 
 ```sh
 # 使用CPU版本

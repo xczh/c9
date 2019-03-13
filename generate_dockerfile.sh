@@ -4,12 +4,12 @@ set -e
 
 # For ubuntu Image
 
-sed '/^ARG BASE_IMAGE=/d; s@\${BASE_IMAGE}@ubuntu:latest@g' Dockerfile > Dockerfile-ubuntu-lts
-sed '/^ARG BASE_IMAGE=/d; s@\${BASE_IMAGE}@ubuntu:rolling@g' Dockerfile > Dockerfile-ubuntu-rolling
+sed '/^ARG BASE_IMAGE=/d; s@\${BASE_IMAGE}@ubuntu:18.04@g' Dockerfile > Dockerfile-ubuntu-1804
+sed '/^ARG BASE_IMAGE=/d; s@\${BASE_IMAGE}@ubuntu:16.04@g' Dockerfile > Dockerfile-ubuntu-1604
 
 ## For nvidia/cuda Image
 
-sed '/^ARG BASE_IMAGE=/d; s@\${BASE_IMAGE}@nvidia/cuda:9.0-cudnn7-devel@g' Dockerfile > Dockerfile-nvidia-cu90-cudnn7
-sed '/^ARG BASE_IMAGE=/d; s@\${BASE_IMAGE}@nvidia/cuda:8.0-cudnn6-devel@g' Dockerfile > Dockerfile-nvidia-cu80-cudnn6
+sed '/^ARG BASE_IMAGE=/d; s@\${BASE_IMAGE}@nvidia/cuda:10.1-cudnn7-devel@g' Dockerfile > Dockerfile-nvidia-cu101-cudnn7
+sed '/^ARG BASE_IMAGE=/d; s@\${BASE_IMAGE}@nvidia/cuda:9.2-cudnn7-devel@g' Dockerfile > Dockerfile-nvidia-cu92-cudnn7
 
 echo "Generated. Successful!"

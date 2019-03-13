@@ -5,7 +5,7 @@
 # ==================================================================
 
 
-FROM ubuntu:rolling
+FROM nvidia/cuda:9.2-cudnn7-devel
 
 LABEL maintainer.name="xczh" \
       maintainer.email="xczh.me@foxmail.com" \
