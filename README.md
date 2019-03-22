@@ -6,18 +6,21 @@
 
 支持TAG:
 
- - `cpu`: 支持CPU的最新版
- - `gpu`: 支持GPU的最新版
- - `ubuntu-<ver>`：支持CPU的旧版本
- - `nvidia-cu<ver>-cudnn<ver>`：支持GPU的旧版本
+ - `ubuntu-<ver>`：支持CPU的版本
+ - `nvidia-cu<ver>-cudnn<ver>`：支持GPU的版本
 
 ```sh
 # 使用CPU版本
-$ sudo docker pull xczh/c9:cpu
+$ sudo docker pull xczh/c9:ubuntu-1804
 
 # 使用GPU版本
-$ sudo docker pull xczh/c9:gpu
+$ sudo docker pull xczh/c9:nvidia-cu90-cudnn7
 ```
+
+Tips:
+
+ - CUDA 10.0以上需要`nvidia-docker 2`，不再支持`nvidia-docker 1.x`
+ - 使用不同的GPU版本对驱动程序的版本要求不同，参见[这里](https://github.com/NVIDIA/nvidia-docker/wiki/CUDA#requirements)
 
 与官方版本相比的新增特性：
 
@@ -55,9 +58,10 @@ $ sudo docker pull xczh/c9:gpu
 # CPU版本运行示例
 #
 # EXTERNAL_PORT: （可选）用于映射容器端口，使得外部网络可访问
+# SYS_PTRACE权限用于容器内GDB调试，如果不需要使用GDB无需添加此项权限
 # 80为IDE内部HTTP服务监听端口
 # 22为IDE内部SSHD服务监听端口
-$ sudo docker run -d --restart=always \
+$ sudo docker run -d --restart=unless-stopped \
                   --name ${container_name} \
                   --hostname ${container_hostname} \
                   --cap-add SYS_PTRACE \
@@ -65,12 +69,12 @@ $ sudo docker run -d --restart=always \
                   -e C9_AUTH=root:${password} \
                   -p 10080:80 \
                   -p 10022:22 \
-                  xczh/c9:cpu
+                  xczh/c9:ubuntu-1804
 
 
 # GPU版本运行示例
 #
-$ sudo nvidia-docker run -d --restart=always \
+$ sudo nvidia-docker run -d --restart=unless-stopped \
                          --name ${container_name} \
                          --hostname ${container_hostname} \
                          --cap-add SYS_PTRACE \
@@ -78,7 +82,7 @@ $ sudo nvidia-docker run -d --restart=always \
                          -e C9_AUTH=root:${password} \
                          -p 10080:80 \
                          -p 10022:22 \
-                         xczh/c9:gpu
+                         xczh/c9:nvidia-cu90-cudnn7
 
 ```
 

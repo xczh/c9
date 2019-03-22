@@ -2,8 +2,8 @@ version: "3"
 
 services:
   c9:
-    image: "xczh/c9:cpu"
-    restart: always
+    image: "xczh/c9:ubuntu-1804"
+    restart: unless-stopped
     container_name: c9
     hostname: c9
     cap_add:
