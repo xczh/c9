@@ -49,7 +49,7 @@ if [ ! -e /root/.c9/ide-run-init-finish ]; then
 fi
 
 # Run C9 WebIDE Now
-NODE_ENV="production" /usr/bin/nodejs /cloud9/server.js --listen 0.0.0.0 --port 80 \
+/usr/bin/nodejs /cloud9/server.js --listen 0.0.0.0 --port 80 \
   -w /workspace --collab --auth ${C9_AUTH} &
 
 C9_PID=$!
