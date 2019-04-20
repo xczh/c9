@@ -59,8 +59,9 @@ Tips:
 #
 # EXTERNAL_PORT: （可选）用于映射容器端口，使得外部网络可访问
 # SYS_PTRACE权限用于容器内GDB调试，如果不需要使用GDB无需添加此项权限
-# 80为IDE内部HTTP服务监听端口
+# 80为IDE内部HTTP(S)服务监听端口
 # 22为IDE内部SSHD服务监听端口
+# 如需启用HTTPS，添加-v /path/to/cert-key-bundle.pem:/etc/ssl/private/certkey.pem:ro
 $ sudo docker run -d --restart=unless-stopped \
                   --name ${container_name} \
                   --hostname ${container_hostname} \
@@ -86,6 +87,6 @@ $ sudo nvidia-docker run -d --restart=unless-stopped \
 
 ```
 
-现在，访问`http://<host-ip>:10080`试试~
+现在，访问`http(s)://<host-ip>:10080`试试~
 
 Tips: GPU版本IDE内可执行nvidia-smi命令查看GPU状态

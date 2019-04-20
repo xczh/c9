@@ -57,6 +57,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         inetutils-ping \
         nano \
         net-tools \
+        openssl \
         tzdata \
         unzip \
         vim \
@@ -159,28 +160,6 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     npm install -g http-server && \
 
 # ==================================================================
-# openssh AND openssl
-# ------------------------------------------------------------------
-
-    DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
-        openssh-server \
-        openssl \
-        && \
-    mkdir /var/run/sshd && \
-    sed -i 's/.*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config && \
-    sed -i 's/.*X11Forwarding.*/X11Forwarding yes/' /etc/ssh/sshd_config && \
-
-# ==================================================================
-# supervisor
-# ------------------------------------------------------------------
-
-    DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
-        supervisor \
-        && \
-    sed -i 's/^\(\[supervisord\]\)$/\1\nnodaemon=true/' \
-        /etc/supervisor/supervisord.conf && \
-
-# ==================================================================
 # cloud9
 # note: tmux-1.9 required
 # ------------------------------------------------------------------
@@ -206,9 +185,31 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     cd /root && \
 
 # ==================================================================
+# openssh
+# ------------------------------------------------------------------
+
+    DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
+        openssh-server \
+        && \
+    mkdir /var/run/sshd && \
+    sed -i 's/.*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config && \
+    sed -i 's/.*X11Forwarding.*/X11Forwarding yes/' /etc/ssh/sshd_config && \
+
+# ==================================================================
+# supervisor
+# ------------------------------------------------------------------
+
+    DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
+        supervisor \
+        && \
+    sed -i 's/^\(\[supervisord\]\)$/\1\nnodaemon=true/' \
+        /etc/supervisor/supervisord.conf && \
+
+# ==================================================================
 # copy/move files [after]
 # ------------------------------------------------------------------
 
+    mkdir -p /root/.c9/ /etc/supervisor/ && \
     mv -f /tmp/build/config/user.settings /root/.c9/user.settings && \
     mv -f /tmp/build/config/supervisord.conf /etc/supervisor/supervisord.conf && \
 
@@ -216,6 +217,8 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # cleanup
 # ------------------------------------------------------------------
 
+    sed -i 's/http:\/\/archive.ubuntu.com/https:\/\/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list && \
+    sed -i 's/http:\/\/security.ubuntu.com/https:\/\/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list && \
     apt-get clean -y && \
     apt-get autoremove -y && \
     npm cache clean --force && \
@@ -228,7 +231,6 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 VOLUME /workspace
 
 EXPOSE 80
-
 EXPOSE 22
 
 ENV C9_AUTH=root:webide

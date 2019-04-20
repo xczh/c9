@@ -49,13 +49,11 @@ if [ ! -e /root/.c9/ide-run-init-finish ]; then
 fi
 
 # Run C9 WebIDE Now
-C9_ARGS="--listen 0.0.0.0 -w /workspace --collab --auth ${C9_AUTH}"
+C9_ARGS="--listen 0.0.0.0 --port 80 -w /workspace --collab --auth ${C9_AUTH}"
 SSL_PEM=${SSL_PEM:-/etc/ssl/private/certkey.pem}
 
 if [ -r ${SSL_PEM} ]; then
-    C9_ARGS=${C9_ARGS}" --port 443 --secure ${SSL_PEM}"
-else
-    C9_ARGS=${C9_ARGS}" --port 80"
+    C9_ARGS=${C9_ARGS}" --secure ${SSL_PEM}"
 fi
 
 if [ ! -z ${C9_ADDITIONAL_ARGS} ]; then
