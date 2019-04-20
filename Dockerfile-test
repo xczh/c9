@@ -91,7 +91,6 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     sed -i 's/http:\/\/security.ubuntu.com/https:\/\/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list && \
     apt-get clean -y && \
     apt-get autoremove -y && \
-    npm cache clean --force && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/.cache /root/.c9/tmux-* /root/.c9/libevent-* /root/.c9/ncurses-*
 
 # ==================================================================
