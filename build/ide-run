@@ -49,8 +49,24 @@ if [ ! -e /root/.c9/ide-run-init-finish ]; then
 fi
 
 # Run C9 WebIDE Now
-/usr/bin/nodejs /cloud9/server.js --listen 0.0.0.0 --port 80 \
-  -w /workspace --collab --auth ${C9_AUTH} &
+C9_ARGS="--listen 0.0.0.0 -w /workspace --collab --auth ${C9_AUTH}"
+
+if [ -z ${SSL_PEM} ]; then
+    if [ -z ${SSL} ]; then
+        C9_ARGS=${C9_ARGS}" --port 80"
+    else
+        echo "No support for auto-generated SSL cert now. Please use env param 'SSL_PEM'."
+        C9_ARGS=${C9_ARGS}" --port 80"
+    fi
+else
+    C9_ARGS=${C9_ARGS}" --port 443 --secure ${SSL_PEM}"
+fi
+
+if [ ! -z ${C9_ADDITIONAL_ARGS} ]; then
+    C9_ARGS=${C9_ARGS}" ${C9_ADDITIONAL_ARGS}"
+fi
+
+/usr/bin/nodejs /cloud9/server.js ${C9_ARGS} &
 
 C9_PID=$!
 
