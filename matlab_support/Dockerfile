@@ -29,6 +29,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # ------------------------------------------------------------------
 
     DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
+        libjogl2-jni \
         libxt6 \
         libxtst6 \
         libxi6 \
