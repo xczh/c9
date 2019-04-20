@@ -1,0 +1,18 @@
+#!/bin/bash
+
+. lib/util
+
+if [ -z ${ip} ]; then
+    Fatal "ip2port: 'ip' is required."
+fi
+
+ip2port_prefix=${ip2port_prefix:-5}
+ip2port_hostid=${ip##*.}
+
+if [[ ${#ip2port_hostid} != 2 ]]; then
+    Fatal "ip2port: 'ip' must end with 2 digits."
+fi
+
+map_http_port=${ip2port_prefix}${ip##*.}"80"
+map_sshd_port=${ip2port_prefix}${ip##*.}"22"
+map_ext_port=${ip2port_prefix}${ip##*.}"88"

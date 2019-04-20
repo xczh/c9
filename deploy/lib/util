@@ -1,0 +1,12 @@
+#!/bin/bash
+
+function Info() {
+    local msg="`date '+%Y/%m/%d %H:%M:%S'` [INFO] $1"
+    echo ${msg}
+}
+
+function Fatal() {
+    local msg="`date '+%Y/%m/%d %H:%M:%S'` [FATAL] $1"
+    echo ${msg}
+    exit 1
+}

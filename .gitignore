@@ -1,5 +1,3 @@
-# docker images
-/images/
-
-# record for make command
-*.mkscript
+# deploy
+/deploy/*.sh
+!/deploy/example.sh

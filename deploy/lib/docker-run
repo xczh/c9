@@ -1,0 +1,68 @@
+#!/bin/bash
+
+. lib/util
+
+DOCKER_OPT="-d --restart=unless-stopped --cap-add SYS_PTRACE"
+
+## Required
+
+if [[ -z ${image} || -z ${tag} ]]; then
+    Fatal "'image' and 'tag' required."
+fi
+
+if [ -z ${container_name} ]; then
+    Fatal "'container_name' required."
+else
+    DOCKER_OPT=${DOCKER_OPT}" --name ${container_name} --hostname ${container_name}"
+fi
+
+if [ -z ${path_to_workspace} ]; then
+    Fatal "'path_to_workspace' required."
+else
+    DOCKER_OPT=${DOCKER_OPT}" -v ${path_to_workspace}:/workspace"
+fi
+
+if [ -z ${root_password} ]; then
+    Fatal "'root_password' required."
+else
+    DOCKER_OPT=${DOCKER_OPT}" -e C9_AUTH=root:${root_password}"
+fi
+
+## Optional
+
+if [[ -n ${map_http_port} ]]; then
+    DOCKER_OPT=${DOCKER_OPT}" -p ${map_http_port}:80"
+fi
+
+if [[ -n ${map_sshd_port} ]]; then
+    DOCKER_OPT=${DOCKER_OPT}" -p ${map_sshd_port}:22"
+fi
+
+if [[ -n ${map_ext_port} ]]; then
+    DOCKER_OPT=${DOCKER_OPT}" -p ${map_ext_port}:${map_ext_port} -e EXTERNAL_PORT=${map_ext_port}"
+fi
+
+if [[ -n ${ssl_pem} ]]; then
+    DOCKER_OPT=${DOCKER_OPT}" -v ${ssl_pem}:/etc/ssl/private/certkey.pem:ro"
+fi
+
+if [[ -n ${net} && -n ${ip} ]]; then
+    DOCKER_OPT=${DOCKER_OPT}" --net ${net} --ip ${ip}"
+fi
+
+## Docker Engine
+if [ ${tag:0:6} = "nvidia" ]; then
+    DOCKER="nvidia-docker"
+else
+    DOCKER="docker"
+fi
+
+if [[ -n ${DOCKER_EXT_OPT} ]]; then
+    DOCKER_OPT=${DOCKER_OPT}" ${DOCKER_EXT_OPT}"
+fi
+
+Info "check-opt: ${DOCKER} run ${DOCKER_OPT} ${image}:${tag}"
+
+if [[ -z ${debug} ]]; then
+    ${DOCKER} run ${DOCKER_OPT} ${image}:${tag}
+fi
