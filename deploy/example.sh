@@ -1,7 +1,5 @@
 #!/bin/bash
 
-. default-opt
-
 #####################################################
 
 # Required
@@ -14,8 +12,15 @@ map_http_port=5680
 map_sshd_port=5622
 map_ext_port=5688
 
-# Ext
+# Extension
 
 #####################################################
 
-. ./lib/docker-run
+# Load Default Options
+. default_opt
+
+# Check options
+. lib/check_opt
+
+# Call Docker-cli to Run Container
+run_ide

@@ -1,3 +1,9 @@
 # deploy
 /deploy/*.sh
 !/deploy/example.sh
+/deploy/ext/*.ext
+!/deploy/ext/example.ext
+
+# matlab_support
+/matlab_support/*
+!/matlab_support/Dockerfile

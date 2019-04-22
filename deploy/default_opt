@@ -1,0 +1,18 @@
+#!/bin/bash
+
+## Required
+
+image=xczh/c9
+tag=ubuntu-1804
+container_name=${container_name}
+path_to_workspace=${path_to_workspace}
+root_password=${root_password}
+
+## Optional
+
+map_http_port=${map_http_port}
+map_sshd_port=${map_sshd_port}
+map_ext_port=${map_ext_port}
+ssl_pem=${ssl_pem}
+net=${net}
+ip=${ip}

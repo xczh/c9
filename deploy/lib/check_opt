@@ -7,23 +7,23 @@ DOCKER_OPT="-d --restart=unless-stopped --cap-add SYS_PTRACE"
 ## Required
 
 if [[ -z ${image} || -z ${tag} ]]; then
-    Fatal "'image' and 'tag' required."
+    Fatal "check_opt: 'image' and 'tag' required."
 fi
 
 if [ -z ${container_name} ]; then
-    Fatal "'container_name' required."
+    Fatal "check_opt: 'container_name' required."
 else
     DOCKER_OPT=${DOCKER_OPT}" --name ${container_name} --hostname ${container_name}"
 fi
 
 if [ -z ${path_to_workspace} ]; then
-    Fatal "'path_to_workspace' required."
+    Fatal "check_opt: 'path_to_workspace' required."
 else
     DOCKER_OPT=${DOCKER_OPT}" -v ${path_to_workspace}:/workspace"
 fi
 
 if [ -z ${root_password} ]; then
-    Fatal "'root_password' required."
+    Fatal "check_opt: 'root_password' required."
 else
     DOCKER_OPT=${DOCKER_OPT}" -e C9_AUTH=root:${root_password}"
 fi
@@ -61,8 +61,8 @@ if [[ -n ${DOCKER_EXT_OPT} ]]; then
     DOCKER_OPT=${DOCKER_OPT}" ${DOCKER_EXT_OPT}"
 fi
 
-Info "check-opt: ${DOCKER} run ${DOCKER_OPT} ${image}:${tag}"
+Info "check_opt: ${DOCKER} run ${DOCKER_OPT} ${image}:${tag}"
 
-if [[ -z ${debug} ]]; then
+function run_ide() {
     ${DOCKER} run ${DOCKER_OPT} ${image}:${tag}
-fi
+}
