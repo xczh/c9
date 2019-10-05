@@ -1,13 +1,19 @@
 # C9 WebIDE
 
+***提示***：由于上游[c9/core](https://github.com/c9/core)被Amazon收购，开源项目停止维护，因此本项目也不再维护。上游项目使用的npm包大多已经过时，可能存在安全隐患；代码提示插件使用的Python2也将于2020年1月停止官方支持。若您仍然使用本项目构建的IDE镜像，建议仅部署在内网等安全可信区域。
+
 可在浏览器中写代码的IDE，`cloud9` WebIDE的Docker容器包装，享受云端coding的乐趣~
 
 **自动构建**：[DockerHub](https://hub.docker.com/r/xczh/c9/tags/)
 
 支持TAG:
 
- - `ubuntu-<ver>`：支持CPU的版本
- - `nvidia-cu<ver>-cudnn<ver>`：支持GPU的版本
+ - `ubuntu-1810`：支持CPU的版本，基于Ubuntu 18.10
+ - `ubuntu-1804`：支持CPU的版本，基于Ubuntu 18.04(LTS)
+ - `ubuntu-1604`：支持CPU的版本，基于Ubuntu 16.04(Old-LTS)
+ - `nvidia-cu101-cudnn7`：支持GPU的版本，基于Ubuntu 18.04(LTS)+CUDA10.1+CuDNN7
+ - `nvidia-cu100-cudnn7`：支持GPU的版本，基于Ubuntu 18.04(LTS)+CUDA10.0+CuDNN7
+ - `nvidia-cu90-cudnn7`：支持GPU的版本，基于Ubuntu 18.04(LTS)+CUDA9.0+CuDNN7
 
 ```sh
 # 使用CPU版本
