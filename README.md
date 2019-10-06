@@ -2,6 +2,8 @@
 
 ***提示***：由于上游[c9/core](https://github.com/c9/core)被Amazon收购，开源项目停止维护，因此本项目也不再维护。上游项目使用的npm包大多已经过时，可能存在安全隐患；代码提示插件使用的Python2也将于2020年1月停止官方支持。若您仍然使用本项目构建的IDE镜像，建议仅部署在内网等安全可信区域。
 
+建议使用Microsoft VSCode的网页版[code-server](https://github.com/xczh/code-server)作为替代。
+
 可在浏览器中写代码的IDE，`cloud9` WebIDE的Docker容器包装，享受云端coding的乐趣~
 
 **自动构建**：[DockerHub](https://hub.docker.com/r/xczh/c9/tags/)
